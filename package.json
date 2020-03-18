@@ -1,0 +1,32 @@
+{
+  "name": "task_tracker",
+  "version": "0.0.1",
+  "description": "task tracker rest api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valeriitovstyk/task_tracker.git"
+  },
+  "keywords": [
+    "koa",
+    "rest",
+    "api",
+    "mysql"
+  ],
+  "author": "@laverka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/valeriitovstyk/task_tracker/issues"
+  },
+  "homepage": "https://github.com/valeriitovstyk/task_tracker#readme",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^8.0.8",
+    "nodemon": "^2.0.2"
+  }
+}
