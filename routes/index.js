@@ -1,8 +1,9 @@
+const userAPI = require('./user');
+const taskAPI = require('./task');
+
 const Router = require('koa-router');
-const userRouter = require('./user');
+const router = new Router()
+    .use(userAPI.routes())
+    .use(taskAPI.routes());
 
-const mainRouter = new Router({});
-
-mainRouter.use('/user', userRouter);
-
-module.exports = mainRouter.routes();
+module.exports = router;

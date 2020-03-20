@@ -1,8 +1,8 @@
 const Koa = require('koa');
 const app = new Koa();
+const router = require('./routes');
 
-const mainRouter = require('./routes/index');
+app
+    .use(router.routes());
 
-app.use(mainRouter);
-
-app.listen(process.env.PORT || 5000, () => console.log('Server running on 5000 port'));
+app.listen(process.env.PORT || 3001, () => console.log('Server running on 5000 port'));
