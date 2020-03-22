@@ -46,7 +46,7 @@ const taskController = {
                 where: {
                     userId: ctx.params.id,
                 },
-            })
+            });
             if (userTasks.length > 0) {
                 ctx.status = 200;
                 ctx.body = userTasks;
@@ -59,7 +59,6 @@ const taskController = {
             }
         } catch (err) {
             console.log(err);
-            ctx.status = 204;
         }
     },
     addTask: async (ctx) => {
@@ -71,7 +70,7 @@ const taskController = {
                 userId: ctx.request.body.userId,
             });
             if (newTask) {
-                ctx.status = 200;
+                ctx.status = 201;
                 ctx.body = {
                     status: "success",
                     message: "new task is created with id: " + newTask.id
@@ -84,7 +83,6 @@ const taskController = {
             }
         } catch (err) {
             console.log(err);
-            ctx.status = 204;
         }
     },
     editTask: async (ctx) => {
@@ -102,10 +100,11 @@ const taskController = {
                     },
                     returning: true,
                     plain: true
-                })
-                ctx.status = 200
-                ctx.body = result
-
+                });
+                ctx.status = 200;
+                ctx.body = {
+                    message: "task was successfuly updated"
+                }
             } else {
                 ctx.status = 404;
                 ctx.body = {
@@ -114,7 +113,6 @@ const taskController = {
             }
         } catch (err) {
             console.log(err);
-            ctx.status = 204;
         }
     },
     changeTaskStatus: async (ctx) => {
@@ -140,18 +138,16 @@ const taskController = {
             }
         } catch (err) {
             console.log(err);
-            ctx.status = 204;
         }
     },
     removeTask: async (ctx) => {
         try {
             const taskExist = await Task.findOne({where: {id: ctx.params.id}});
             if (taskExist) {
-                const removedTask = await Task.destroy({where: {id: ctx.params.id}})
+                const removedTask = await Task.destroy({where: {id: ctx.params.id}});
                 if (removedTask) {
                     ctx.status = 200;
                     ctx.body = {
-                        status: "success",
                         message: "task was successfully deleted"
                     }
                 } else {
@@ -166,8 +162,8 @@ const taskController = {
                     message: "task with this id was not found"
                 }
             }
-        } catch {
-
+        } catch (err) {
+            console.log(err);
         }
     }
 };
@@ -190,7 +186,8 @@ module.exports = taskController;
     - Отфильтровав по status
 - Отсортировав по id
 - Изменить пользователя на которого назначена задача*/
-
+//TODO return status from updating tasks task controller
+//TODO check status before update if it is in status array
 //TODO put and patch
 //TODO check if list user list task works correct with array length === 0
 //TODO delete all tasks assigned to user if user is destroyed

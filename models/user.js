@@ -15,7 +15,6 @@ const User = sequelize.define('user', {
         },
 
     }, {
-        // options
         createdAt   : 'createdAt',
         updatedAt   : 'updatedAt',
         timestamps: false,
@@ -24,12 +23,3 @@ const User = sequelize.define('user', {
 );
 
 module.exports = User;
-
-/*
-Обязательные поля для пользователя в базе данных:
-{
-    "user_id": 1,
-    "first_name": "",
-    "last_name": "",
-...
-}*/

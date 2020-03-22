@@ -1,23 +1,5 @@
-/*
-### Пользователь
-
-- Создание пользователя
-- Редактирование пользователя
-- Удаление пользователя
-- Получение всех пользователей*/
-
 const User = require('../models/user');
 const UserController = {
-    /*    getUserList: async (ctx) => {
-            try {
-                ctx.body = await User.findAll({
-                    order: [['id', 'ASC']]
-                });
-                ctx.status = 200;
-            } catch (err) {
-
-            }
-        }*/
     getUserList: async (ctx) => {
         try {
             const users = await User.findAll({
@@ -28,7 +10,9 @@ const UserController = {
                 ctx.body = users;
             } else {
                 ctx.status = 404;
-                ctx.body = "there are no users"
+                ctx.body = {
+                    message: "there are no users"
+                }
             }
         } catch (err) {
             console.log(err)
@@ -44,7 +28,9 @@ const UserController = {
                 ctx.body = user;
             } else {
                 ctx.status = 404;
-                ctx.body = " user with this id not found"
+                ctx.body = {
+                    message: "user with this id not found"
+                }
             }
         } catch (err) {
             console.log(err)
@@ -60,7 +46,9 @@ const UserController = {
                 ctx.body = user;
             } else {
                 ctx.status = 404;
-                ctx.body = " user with this id not found"
+                ctx.body = {
+                    message: "user with this id was not found"
+                }
             }
         } catch (err) {
             console.log(err)
@@ -73,21 +61,19 @@ const UserController = {
                 lastName: ctx.request.body.last_name
             });
             if (newUser) {
-                ctx.status = 200;
+                ctx.status = 201;
                 ctx.body = {
-                    status: "success",
                     message: "new user is created with id: " + newUser.id
                 }
             } else {
                 ctx.status = 400;
                 ctx.body = {
-                    message: "something went wrong"
+                    message: "user was not created"
                 }
             }
         } catch (err) {
             console.log(err);
         }
-
     },
     removeUser: async (ctx) => {
         try {
@@ -95,7 +81,6 @@ const UserController = {
             if (deletedUser) {
                 ctx.status = 200;
                 ctx.body = {
-                    status: "success",
                     message: "user was successfully deleted"
                 }
             } else {
