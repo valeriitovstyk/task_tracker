@@ -103,10 +103,16 @@ const UserController = {
                 where: {
                     id: ctx.params.id
                 }
-            })
+            });
+            ctx.status = 200;
+            ctx.body = {
+                message: "user was successfully updated"
+            }
         } else {
             ctx.status = 400;
-            ctx.body = 'The user you are trying to retrieve doesn\'t exist in the db';
+            ctx.body = {
+                message: 'The user you are trying to retrieve doesn\'t exist in the db'
+            }
         }
     }
 };
@@ -125,7 +131,3 @@ module.exports = UserController;
 //});
 
 //TODO handle errors with catch
-//TODO script for create DB on package json
-//TODO ensure responce statuses if correct to restful best practices
-//TODO the same format for answer status and error message
-//TODO format code

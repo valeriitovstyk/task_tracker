@@ -87,6 +87,12 @@ const taskController = {
     },
     editTask: async (ctx) => {
         try {
+            if (!isStatusCorrect(ctx.request.body.status)) {
+                ctx.status = 400;
+                ctx.body = {
+                    message: "this status for task is not allowed"
+                }
+            }
             const taskForUpdate = await Task.findOne({where: {id: ctx.params.id}});
             if (taskForUpdate) {
                 const result = Task.update({
@@ -103,7 +109,7 @@ const taskController = {
                 });
                 ctx.status = 200;
                 ctx.body = {
-                    message: "task was successfuly updated"
+                    message: "task was successfully updated"
                 }
             } else {
                 ctx.status = 404;
@@ -129,7 +135,9 @@ const taskController = {
                     plain: true
                 });
                 ctx.status = 200;
-                ctx.body = updatedStatus;
+                ctx.body = {
+                    message: "status was changed to " + ctx.request.body.status
+                }
             } else {
                 ctx.status = 404;
                 ctx.body = {
@@ -186,10 +194,6 @@ module.exports = taskController;
     - Отфильтровав по status
 - Отсортировав по id
 - Изменить пользователя на которого назначена задача*/
-//TODO return status from updating tasks task controller
-//TODO check status before update if it is in status array
-//TODO put and patch
 //TODO check if list user list task works correct with array length === 0
 //TODO delete all tasks assigned to user if user is destroyed
 //TODO handle creating task for non existing user
-//TODO usercontroller update method doesnt return any success message
