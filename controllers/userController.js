@@ -98,10 +98,14 @@ const UserController = {
                     status: "success",
                     message: "user was successfully deleted"
                 }
+            } else {
+                ctx.status = 204;
+                ctx.body = {
+                    message: "user was not removed"
+                }
             }
         } catch (err) {
             console.log(err);
-            ctx.status = 204;
         }
     },
     updateUser: async (ctx) => {
