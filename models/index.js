@@ -5,5 +5,5 @@ const models = {
 
 models.Task.belongsTo(models.User);
 models.User.hasMany(models.Task);
-
+// { onDelete: 'cascade' }
 module.exports = models;

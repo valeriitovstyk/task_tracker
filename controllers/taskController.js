@@ -195,5 +195,4 @@ module.exports = taskController;
 - Отсортировав по id
 - Изменить пользователя на которого назначена задача*/
 //TODO check if list user list task works correct with array length === 0
-//TODO delete all tasks assigned to user if user is destroyed
 //TODO handle creating task for non existing user

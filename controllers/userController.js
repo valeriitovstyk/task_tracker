@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Task = require('../models/task');
 const UserController = {
     getUserList: async (ctx) => {
         try {
@@ -77,8 +78,9 @@ const UserController = {
     },
     removeUser: async (ctx) => {
         try {
+            const asignedTasks = await Task.destroy({where: {userId: ctx.params.id}});
             const deletedUser = await User.destroy({where: {id: ctx.params.id}});
-            if (deletedUser) {
+            if (deletedUser && asignedTasks) {
                 ctx.status = 200;
                 ctx.body = {
                     message: "user was successfully deleted"
