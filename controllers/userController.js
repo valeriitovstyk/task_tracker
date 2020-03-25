@@ -121,15 +121,4 @@ const UserController = {
 
 module.exports = UserController;
 
-//TODO test updating non existing user
 //TODO handle name or id on same route
-//router.get("/users/:id",  async ctx => {
-//    //ctx.request.id
-//    if (!isNaN(ctx.request.id)) // it IS a number {
-//        //do something with user ID
-//        } else {
-//    //do something with username
-//}
-//});
-
-//TODO handle errors with catch

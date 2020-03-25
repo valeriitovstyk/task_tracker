@@ -9,6 +9,7 @@ const userAPI = new Router({prefix: '/tasks'})
     .post('/', koaBody(), taskController.addTask)
     .put('/:id', koaBody(), taskController.editTask)
     .patch('/:id', koaBody(), taskController.changeTaskStatus)
+    .patch('/asignee/:id', koaBody(), taskController.changeAsignedPerson)
     .delete('/:id', taskController.removeTask);
 
 module.exports = userAPI;

@@ -6,6 +6,29 @@ const isStatusCorrect = status => allStatus.includes(status);
 const taskController = {
     getTaskList: async (ctx) => {
         try {
+            const condition = ctx.request.query.status ? {status: ctx.request.query.status} : {}
+            const order = ctx.request.query.order ? [['id', ctx.request.query.order]] : [['id', 'ASC']]
+            const taskList = await Task.findAll({
+                where: condition,
+                order: order,
+            });
+            if (taskList) {
+                ctx.status = 200;
+                ctx.body = taskList;
+            } else {
+                ctx.status = 404;
+                ctx.body = {
+                    message: "something went wrong with your request"
+                }
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+
+/*    getTaskList: async (ctx) => {
+        try {
             const taskList = await Task.findAll({
                 order: [['id', 'ASC']]
             });
@@ -21,7 +44,7 @@ const taskController = {
         } catch (e) {
             console.log(e);
         }
-    },
+    },*/
     getTask: async (ctx) => {
         try {
             const singleTask = await Task.findOne({
@@ -62,27 +85,35 @@ const taskController = {
         }
     },
     addTask: async (ctx) => {
-        try {
-            const newTask = await Task.create({
-                title: ctx.request.body.title,
-                description: ctx.request.body.description,
-                status: ctx.request.body.status,
-                userId: ctx.request.body.userId,
-            });
-            if (newTask) {
-                ctx.status = 201;
-                ctx.body = {
-                    status: "success",
-                    message: "new task is created with id: " + newTask.id
+        const userExist = await User.findOne({where: {id: ctx.request.body.userId}});
+        if (userExist){
+            try {
+                const newTask = await Task.create({
+                    title: ctx.request.body.title,
+                    description: ctx.request.body.description,
+                    status: ctx.request.body.status,
+                    userId: ctx.request.body.userId,
+                });
+                if (newTask) {
+                    ctx.status = 201;
+                    ctx.body = {
+                        status: "success",
+                        message: "new task is created with id: " + newTask.id
+                    }
+                } else {
+                    ctx.status = 400;
+                    ctx.body = {
+                        message: "something went wrong"
+                    }
                 }
-            } else {
-                ctx.status = 400;
-                ctx.body = {
-                    message: "something went wrong"
-                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        } else {
+            ctx.status = 404;
+            ctx.body = {
+                message: "user was not found"
+            }
         }
     },
     editTask: async (ctx) => {
@@ -148,6 +179,33 @@ const taskController = {
             console.log(err);
         }
     },
+    changeAsignedPerson: async (ctx) => {
+        try {
+            const findTask = await Task.findOne({where: {id: ctx.params.id}});
+            if (findTask) {
+                Task.update({
+                    userId: ctx.request.body.asignee
+                }, {
+                    where: {
+                        id: ctx.params.id
+                    },
+                    returning: true,
+                    plain: true
+                });
+                ctx.status = 200;
+                ctx.body = {
+                    message: "asigned person was changed to " + ctx.request.body.asignee
+                }
+            } else {
+                ctx.status = 404;
+                ctx.body = {
+                    message: "task was not found"
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    },
     removeTask: async (ctx) => {
         try {
             const taskExist = await Task.findOne({where: {id: ctx.params.id}});
@@ -194,5 +252,3 @@ module.exports = taskController;
     - Отфильтровав по status
 - Отсортировав по id
 - Изменить пользователя на которого назначена задача*/
-//TODO check if list user list task works correct with array length === 0
-//TODO handle creating task for non existing user
