@@ -6,8 +6,8 @@ const isStatusCorrect = status => allStatus.includes(status);
 const taskController = {
     getTaskList: async (ctx) => {
         try {
-            const condition = ctx.request.query.status ? {status: ctx.request.query.status} : {}
-            const order = ctx.request.query.order ? [['id', ctx.request.query.order]] : [['id', 'ASC']]
+            const condition = ctx.request.query.status ? {status: ctx.request.query.status} : {};
+            const order = ctx.request.query.order ? [['id', ctx.request.query.order]] : [['id', 'ASC']];
             const taskList = await Task.findAll({
                 where: condition,
                 order: order,
@@ -25,26 +25,6 @@ const taskController = {
             console.log(e);
         }
     },
-
-
-/*    getTaskList: async (ctx) => {
-        try {
-            const taskList = await Task.findAll({
-                order: [['id', 'ASC']]
-            });
-            if (taskList) {
-                ctx.status = 200;
-                ctx.body = taskList;
-            } else {
-                ctx.status = 404;
-                ctx.body = {
-                    message: "something went wrong with your request"
-                }
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    },*/
     getTask: async (ctx) => {
         try {
             const singleTask = await Task.findOne({
@@ -61,14 +41,16 @@ const taskController = {
             console.log(err)
         }
     },
+
     userTaskList: async (ctx) => {
         try {
+            const condition = {userId: ctx.params.id};
+            const order = ctx.request.query.order ? [['id', ctx.request.query.order]] : [['id', 'ASC']];
+            const include = [{all: true, nested: true}];
             const userTasks = await Task.findAll({
-                order: [['id', 'ASC']],
-                include: [{all: true, nested: true}],
-                where: {
-                    userId: ctx.params.id,
-                },
+                where: condition,
+                include: include,
+                order: order,
             });
             if (userTasks.length > 0) {
                 ctx.status = 200;
