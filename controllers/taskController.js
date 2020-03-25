@@ -41,7 +41,6 @@ const taskController = {
             console.log(err)
         }
     },
-
     userTaskList: async (ctx) => {
         try {
             const condition = {userId: ctx.params.id};
@@ -217,20 +216,3 @@ const taskController = {
 };
 
 module.exports = taskController;
-
-
-/*
-
-### Задача
-
-+ Создание задачи
-+ Редактирование задачи
-+ Изменить статус задачи
-- Удаление задачи
-+ Получение списка задач
-
-Можно не делать, но будет плюсом следующее:
-
-    - Отфильтровав по status
-- Отсортировав по id
-- Изменить пользователя на которого назначена задача*/

@@ -120,5 +120,3 @@ const UserController = {
 };
 
 module.exports = UserController;
-
-//TODO handle name or id on same route
