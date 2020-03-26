@@ -8,4 +8,16 @@ services:
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_DATABASE: mysql_task
     ports:
-      - "3308:3306"
+      - "3308:3308"
+
+  api:
+    image: node:latest
+    volumes:
+      - .:/usr/src/service
+    working_dir: /usr/src/service
+    build:
+      context: ""
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
