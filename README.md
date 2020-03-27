@@ -29,6 +29,7 @@
  for 
  - GET /tasks
  - GET /tasks/user/[id]
+ 
  is implemented sorting and filtering by status. For this you should provide query parameters:
  status & order. 
  Status should be in ["View", "In Progress", "Done"], 
