@@ -35,3 +35,8 @@
  Status should be in ["View", "In Progress", "Done"], 
  Order could be "ASC" or "DESC"
  
+ 
+ ## Docker
+ to run application in  docker:
+ docker-compose build
+ docker-compose up
